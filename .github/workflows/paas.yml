@@ -12,14 +12,21 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
   PaaS-Lint-Check:
-    if: [ -d "helm/Chart.yaml" ]
     runs-on: ubuntu-latest
     steps:
+      - name: Lint Helm
+        run: |
+          if [ -f "helm/Chart.yaml" ]; then
+            echo "File exists"
+            helm lint helm
+            # Add steps to run when the file exists
+          else
+            echo "File does not exist"
+            # Add steps to run when the file does not exist
+          fi
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Lint helm
-        run: helm lint helm
       - run: echo "🍏 This job's status is ${{ job.status }}."
