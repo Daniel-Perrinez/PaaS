@@ -7,4 +7,4 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: 'PaaS-Steps'
-              uses: Daniel-Perrinez/PaaS@main
+              uses: Daniel-Perrinez/paas@main
