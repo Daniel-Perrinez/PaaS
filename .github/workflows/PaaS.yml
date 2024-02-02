@@ -12,6 +12,12 @@ jobs:
   PaaS-Lint-Check:
     runs-on: ubuntu-latest
     steps:
+      - name: List files in the repository
+        run: |
+          echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+          echo "🖥️ The workflow is now ready to test your code on the runner."
+          ls ${{ github.workspace }}
       - name: Lint Helm
         run: |
           if [ -f "helm/Chart.yaml" ]; then
@@ -22,10 +28,4 @@ jobs:
             echo "File does not exist"
             # Add steps to run when the file does not exist
           fi
-      - name: List files in the repository
-        run: |
-          echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-          echo "🖥️ The workflow is now ready to test your code on the runner."
-          ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
