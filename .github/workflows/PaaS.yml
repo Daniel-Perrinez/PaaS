@@ -1,5 +1,4 @@
 name: Platform as a Service (PaaS)
-run-name: Testing CI job
 run-name: ${{ github.actor }} triggered a CI job 🚀
 on: [push]
 jobs:
