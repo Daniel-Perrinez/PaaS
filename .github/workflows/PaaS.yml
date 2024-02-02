@@ -12,7 +12,8 @@ jobs:
   PaaS-Lint-Check:
     runs-on: ubuntu-latest
     steps:
-      - name: Get repository information.
+      - name: Check out repository code
+        uses: actions/checkout@v4
         run: |
           echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
           echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
