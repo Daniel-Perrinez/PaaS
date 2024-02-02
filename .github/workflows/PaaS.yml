@@ -1,6 +1,6 @@
 name: Platform as a Service (PaaS)
 run-name: ${{ github.actor }} triggered a CI job 🚀
-on: [push]
+on: [push, workflow_call]
 jobs:
   PaaS-Start-Up-Information:
     runs-on: ubuntu-latest
