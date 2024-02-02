@@ -12,12 +12,13 @@ jobs:
   PaaS-Lint-Check:
     runs-on: ubuntu-latest
     steps:
-      - name: List files in the repository
+      - name: Get repository information.
         run: |
           echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
           echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
           echo "🖥️ The workflow is now ready to test your code on the runner."
-          ls ${{ github.workspace }}
+          echo "List files in the repository"
+          ls -la ${{ github.workspace }}
       - name: Lint Helm
         run: |
           if [ -f "helm/Chart.yaml" ]; then
