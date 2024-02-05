@@ -2,16 +2,14 @@ name: Platform as a Service (PaaS)
 run-name: ${{ github.actor }} triggered a CI job 🚀
 on: [push, workflow_call]
 jobs:
-  PaaS-Start-Up-Information:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-
   PaaS-Lint-Check:
     runs-on: ubuntu-latest
     steps:
+      - name: PaaS-Start-Up-Information
+        run: | 
+          echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+          echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+          echo "🍏 This job's status is ${{ job.status }}."
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Get repository information
