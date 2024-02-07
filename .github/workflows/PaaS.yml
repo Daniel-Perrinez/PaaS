@@ -37,4 +37,9 @@ jobs:
             echo "File does not exist"
             exit 1;
           fi
+      - name: Docker push
+        if: ${{ success() }}
+        run: | 
+          docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
+        
       - run: echo "🍏 This job's status is ${{ job.status }}."
