@@ -30,16 +30,27 @@ jobs:
           fi
       - name: Docker Build
         run: |
+          docker_tag=0.0.1.RELEASE
+          docker_repo=d1v3/flask_website
+          
           if [ -f "Dockerfile" ]; then
             echo "Dockerfile exists"
-            docker buildx build --platform linux/amd64 -t d1v3/flask_website:0.0.1.RELEASE .
+            docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t ${docker_repo}:${docker_tag} .
           else
             echo "File does not exist"
-            exit 1;
+            # exit 1;
           fi
       - name: Docker push
         if: ${{ success() }}
         run: | 
-          docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
+          docker_image_id="${${$(<docker_image_id.txt)#sha256:}:0:12}"
+          # Check for the existence of a specific Docker image ID
+          if docker images -q | grep -wq $docker_image_id; then
+            echo "The Docker image ID exists locally"
+            docker push docker.io/${docker_repo}:${docker_tag}
+          else
+            echo "The Docker image ID does not exist locally"
+            exit 1;
+          fi
         
       - run: echo "🍏 This job's status is ${{ job.status }}."
