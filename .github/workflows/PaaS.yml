@@ -2,7 +2,7 @@ name: Platform as a Service (PaaS)
 run-name: ${{ github.actor }} triggered a CI job 🚀
 on: [push, workflow_call]
 jobs:
-  PaaS-Lint-Check:
+  PaaS:
     runs-on: ubuntu-latest
     steps:
       - name: PaaS-Start-Up-Information
@@ -22,11 +22,19 @@ jobs:
       - name: Lint Helm
         run: |
           if [ -f "helm/Chart.yaml" ]; then
-            echo "File exists"
+            echo "Helm chart exists"
             helm lint helm
-            # Add steps to run when the file exists
           else
             echo "File does not exist"
-            # Add steps to run when the file does not exist
+            exit 1;
+          fi
+      - name: Docker Build
+        run: |
+          if [ -f "Dockerfile" ]; then
+            echo "Dockerfile exists"
+            docker buildx build --platform linux/amd64 -t d1v3/flask_website:0.0.1.RELEASE .
+          else
+            echo "File does not exist"
+            exit 1;
           fi
       - run: echo "🍏 This job's status is ${{ job.status }}."
