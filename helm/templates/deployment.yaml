@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask
+  namespace: danp-flask-app
+  labels:
+    app: flask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+        - name: flask
+          image: d1v3/flask_website:0.0.1.RELEASE
+          ports:
+            - containerPort: 5000
+          imagePullPolicy: Always

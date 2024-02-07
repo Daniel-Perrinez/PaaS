@@ -1,0 +1,7 @@
+apiVersion: v2
+name: helm
+description:  Convert Kubernetes(yamls) to Helm Chart
+type: application
+icon: https://github.com/Daniel-Perrinez/Dockerized_Flask_Website/blob/main/helm/icon.png
+version: 0.1.0
+appVersion: 1.16.0
