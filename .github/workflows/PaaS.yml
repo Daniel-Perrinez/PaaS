@@ -32,7 +32,8 @@ jobs:
         run: |
           docker_tag=0.0.1.RELEASE
           docker_repo=d1v3/flask_website
-
+          echo "docker_tag == $docker_tag"
+          echo "docker_repo == $docker_repo"
           if [ -f "Dockerfile" ]; then
             echo "Dockerfile exists"
             docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t ${docker_repo}:${docker_tag} .
@@ -44,7 +45,8 @@ jobs:
       - name: Docker push
         if: ${{ success() }}
         run: | 
-          docker_image_id="${${$(<docker_image_id.txt)#sha256:}:0:12}"
+          docker_image_id=$(echo$(<docker_image_id.txt)|cut -c8-19)
+          echo "docker_image_id == $docker_image_id"
           # Check for the existence of a specific Docker image ID
           if docker images -q | grep -wq $docker_image_id; then
             echo "The Docker image ID exists locally"
