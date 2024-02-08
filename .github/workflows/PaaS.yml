@@ -45,7 +45,7 @@ jobs:
       - name: Docker push
         if: ${{ success() }}
         run: | 
-          docker_image_id=$(echo$(<docker_image_id.txt)|cut -c8-19)
+          docker_image_id=$(echo $(<docker_image_id.txt)|cut -c8-19)
           echo "docker_image_id == $docker_image_id"
           # Check for the existence of a specific Docker image ID
           if docker images -q | grep -wq $docker_image_id; then
