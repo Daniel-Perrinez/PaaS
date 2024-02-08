@@ -11,7 +11,7 @@ jobs:
           echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
           echo "🍏 This job's status is ${{ job.status }}."
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 #https://github.com/marketplace/actions/checkout
       - name: Get repository information
         run: |
           echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
@@ -44,24 +44,34 @@ jobs:
       #     fi
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3 #https://github.com/marketplace/actions/docker-setup-buildx
+          with:
+            platforms: linux/amd64
       - name: Login to Docker Hub
         if: ${{ success() }}
         uses: docker/login-action@v3 #https://github.com/marketplace/actions/docker-login
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker push
+      - name: Build and Push
         if: ${{ success() }}
-        run: | 
-          docker_image_id=$(echo $(<docker_image_id.txt)|cut -c8-19)
-          echo "docker_image_id == $docker_image_id"
-          # Check for the existence of a specific Docker image ID
-          if docker images -q | grep -wq $docker_image_id; then
-            echo "The Docker image ID exists locally"
-            docker push docker.io/${docker_repo}:${docker_tag}
-          else
-            echo "The Docker image ID does not exist locally"
-            exit 1;
-          fi
+        uses: docker/build-push-action@v5 #https://github.com/marketplace/actions/build-and-push-docker-images
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: d1v3/flask_website:latest
+      # - name: Docker push
+        # if: ${{ success() }}
+        # run: | 
+        #   docker_image_id=$(echo $(<docker_image_id.txt)|cut -c8-19)
+        #   echo "docker_image_id == $docker_image_id"
+        #   # Check for the existence of a specific Docker image ID
+        #   if docker images -q | grep -wq $docker_image_id; then
+        #     echo "The Docker image ID exists locally"
+        #     docker push docker.io/${docker_repo}:${docker_tag}
+        #   else
+        #     echo "The Docker image ID does not exist locally"
+        #     exit 1;
+        #   fi
         
       - run: echo "🍏 This job's status is ${{ job.status }}."
