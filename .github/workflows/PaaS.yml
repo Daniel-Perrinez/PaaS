@@ -47,6 +47,21 @@ jobs:
           push: true
           tags: d1v3/flask_website:latest
 
+      # - name: Docker Build
+        #   run: |
+        #     docker_tag=0.0.1.RELEASE
+        #     docker_repo=d1v3/flask_website
+        #     echo "docker_tag == $docker_tag"
+        #     echo "docker_repo == $docker_repo"
+        #     if [ -f "Dockerfile" ]; then
+        #       echo "Dockerfile exists"
+        #       docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t ${docker_repo}:${docker_tag} .
+        #         # If you get a 503 error check --> https://www.dockerstatus.com
+        #     else
+        #       echo "File does not exist"
+        #       # exit 1;
+        #     fi
+
       # - name: Docker push
         # if: ${{ success() }}
         # run: | 
