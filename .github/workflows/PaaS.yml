@@ -28,20 +28,28 @@ jobs:
             echo "File does not exist"
             exit 1;
           fi
-      - name: Docker Build
-        run: |
-          docker_tag=0.0.1.RELEASE
-          docker_repo=d1v3/flask_website
-          echo "docker_tag == $docker_tag"
-          echo "docker_repo == $docker_repo"
-          if [ -f "Dockerfile" ]; then
-            echo "Dockerfile exists"
-            docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t ${docker_repo}:${docker_tag} .
-              # If you get a 503 error check --> https://www.dockerstatus.com
-          else
-            echo "File does not exist"
-            # exit 1;
-          fi
+      # - name: Docker Build
+      #   run: |
+      #     docker_tag=0.0.1.RELEASE
+      #     docker_repo=d1v3/flask_website
+      #     echo "docker_tag == $docker_tag"
+      #     echo "docker_repo == $docker_repo"
+      #     if [ -f "Dockerfile" ]; then
+      #       echo "Dockerfile exists"
+      #       docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t ${docker_repo}:${docker_tag} .
+      #         # If you get a 503 error check --> https://www.dockerstatus.com
+      #     else
+      #       echo "File does not exist"
+      #       # exit 1;
+      #     fi
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3 #https://github.com/marketplace/actions/docker-setup-buildx
+      - name: Login to Docker Hub
+        if: ${{ success() }}
+        uses: docker/login-action@v3 #https://github.com/marketplace/actions/docker-login
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker push
         if: ${{ success() }}
         run: | 
@@ -50,7 +58,8 @@ jobs:
           # Check for the existence of a specific Docker image ID
           if docker images -q | grep -wq $docker_image_id; then
             echo "The Docker image ID exists locally"
-            docker push docker.io/${docker_repo}:${docker_tag}
+            # docker login
+            # docker push docker.io/${docker_repo}:${docker_tag}
           else
             echo "The Docker image ID does not exist locally"
             exit 1;
