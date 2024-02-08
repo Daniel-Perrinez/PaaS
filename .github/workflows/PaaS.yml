@@ -28,6 +28,7 @@ jobs:
             echo "File does not exist"
             exit 1;
           fi
+
       # - name: Docker Build
       #   run: |
       #     docker_tag=0.0.1.RELEASE
@@ -42,6 +43,7 @@ jobs:
       #       echo "File does not exist"
       #       # exit 1;
       #     fi
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3 #https://github.com/marketplace/actions/docker-setup-buildx
           with:
@@ -60,6 +62,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: d1v3/flask_website:latest
+          
       # - name: Docker push
         # if: ${{ success() }}
         # run: | 
