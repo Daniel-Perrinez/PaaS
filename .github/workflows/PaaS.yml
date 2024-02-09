@@ -5,7 +5,7 @@ jobs:
   PaaS:
     runs-on: ubuntu-latest
     env:
-      ENV_DOCKER_REPO: ${{ github.repository }}
+      DOCKER_REPO: ${{ github.repository }}
     steps:
       - name: PaaS-Start-Up-Information
         run: | 
@@ -71,6 +71,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: $ENV_DOCKER_REPO:latest
+          tags: ${{ env.DOCKER_REPO }}:latest
         
       - run: echo "🍏 This job's status is ${{ job.status }}."
