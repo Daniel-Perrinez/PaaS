@@ -19,6 +19,26 @@ jobs:
           echo "🖥️ The workflow is now ready to test your code on the runner."
           echo "List files in the repository"
           ls -la ${{ github.workspace }}
+
+      - name: Generate coverage report
+        run: |
+          pip install Flask pytest pytest-cov
+          python -m pytest --cov=./ --cov-report=xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4 #https://github.com/marketplace/actions/codecov
+        env:
+          slug: Test/Slug
+          # slug: Daniel-Perrinez/Dockerized_Flask_Website
+        with:
+          directory: ./coverage/reports/
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
+          files: ./coverage1.xml,./coverage2.xml,!./cache
+          flags: unittests
+          name: codecov-umbrella
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
+ 
       - name: Lint Helm
         run: |
           if [ -f "helm/Chart.yaml" ]; then
@@ -28,6 +48,7 @@ jobs:
             echo "File does not exist"
             exit 1;
           fi
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3 #https://github.com/marketplace/actions/docker-setup-buildx
         with:
@@ -46,20 +67,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: d1v3/paas_test:latest
-      - name: Generate coverage report
-        run: |
-          pip install Flask pytest pytest-cov
-          python -m pytest --cov=./ --cov-report=xml
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          directory: ./coverage/reports/
-          env_vars: OS,PYTHON
-          fail_ci_if_error: true
-          files: ./coverage1.xml,./coverage2.xml,!./cache
-          flags: unittests
-          name: codecov-umbrella
-          token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true
         
       - run: echo "🍏 This job's status is ${{ job.status }}."
