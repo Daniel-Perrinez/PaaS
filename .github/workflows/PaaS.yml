@@ -30,14 +30,14 @@ jobs:
           slug: Test/Slug
           # slug: Daniel-Perrinez/Dockerized_Flask_Website
         with:
-          directory: ./coverage/reports/
-          env_vars: OS,PYTHON
+          directory: ./
+          # env_vars: OS,PYTHON
           fail_ci_if_error: true
-          files: ./coverage1.xml,./coverage2.xml,!./cache
-          flags: unittests
-          name: codecov-umbrella
+          files: ./coverage.xml
+          # flags: unittests
+          name: test-codecov-umbrella
           token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true
+          verbose: false
  
       - name: Lint Helm
         run: |
