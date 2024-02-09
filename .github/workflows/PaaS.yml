@@ -46,5 +46,20 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: d1v3/paas_test:latest
+      - name: Generate coverage report
+        run: |
+          pip install pytest
+          pip install pytest-cov
+          pytest --cov=./ --cov-report=xml
+      - uses: codecov/codecov-action@v4
+        with:
+          directory: ./coverage/reports/
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
+          files: ./coverage1.xml,./coverage2.xml,!./cache
+          flags: unittests
+          name: codecov-umbrella
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
         
       - run: echo "🍏 This job's status is ${{ job.status }}."
