@@ -5,7 +5,7 @@ jobs:
   PaaS:
     runs-on: ubuntu-latest
     env:
-      ENV_DOCKER_REPO=${{ github.repository }}
+      ENV_DOCKER_REPO: ${{ github.repository }}
     steps:
       - name: PaaS-Start-Up-Information
         run: | 
