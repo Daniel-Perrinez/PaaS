@@ -4,12 +4,11 @@ on: [push, workflow_call]
 jobs:
   PaaS:
     runs-on: ubuntu-latest
-    env:
-      DOCKER_REPO: ${{ github.repository }}
     steps:
       - name: PaaS-Start-Up-Information
         run: | 
           echo "------------------------------- Print all environment variables -------------------------------"
+          echo "DOCKER_REPO=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
           env
           echo "-----------------------------------------------------------------------------------------------"
           echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
