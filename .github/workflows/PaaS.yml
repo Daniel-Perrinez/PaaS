@@ -19,6 +19,26 @@ jobs:
           echo "🖥️ The workflow is now ready to test your code on the runner."
           echo "List files in the repository"
           ls -la ${{ github.workspace }}
+
+      - name: Generate coverage report
+        run: |
+          pip install Flask pytest pytest-cov
+          python -m pytest --cov=./ --cov-report=xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4 #https://github.com/marketplace/actions/codecov
+        env:
+          slug: Test/Slug
+          # slug: Daniel-Perrinez/Dockerized_Flask_Website
+        with:
+          directory: ./
+          # env_vars: OS,PYTHON
+          fail_ci_if_error: true
+          files: ./coverage.xml
+          # flags: unittests
+          name: test-codecov-umbrella
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: false
+ 
       - name: Lint Helm
         run: |
           if [ -f "helm/Chart.yaml" ]; then
@@ -28,6 +48,7 @@ jobs:
             echo "File does not exist"
             exit 1;
           fi
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3 #https://github.com/marketplace/actions/docker-setup-buildx
         with:
@@ -45,35 +66,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: d1v3/flask_website:latest
-
-      # - name: Docker Build
-        #   run: |
-        #     docker_tag=0.0.1.RELEASE
-        #     docker_repo=d1v3/flask_website
-        #     echo "docker_tag == $docker_tag"
-        #     echo "docker_repo == $docker_repo"
-        #     if [ -f "Dockerfile" ]; then
-        #       echo "Dockerfile exists"
-        #       docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t ${docker_repo}:${docker_tag} .
-        #         # If you get a 503 error check --> https://www.dockerstatus.com
-        #     else
-        #       echo "File does not exist"
-        #       # exit 1;
-        #     fi
-
-      # - name: Docker push
-        # if: ${{ success() }}
-        # run: | 
-        #   docker_image_id=$(echo $(<docker_image_id.txt)|cut -c8-19)
-        #   echo "docker_image_id == $docker_image_id"
-        #   # Check for the existence of a specific Docker image ID
-        #   if docker images -q | grep -wq $docker_image_id; then
-        #     echo "The Docker image ID exists locally"
-        #     docker push docker.io/${docker_repo}:${docker_tag}
-        #   else
-        #     echo "The Docker image ID does not exist locally"
-        #     exit 1;
-        #   fi
+          tags: d1v3/paas_test:latest
         
       - run: echo "🍏 This job's status is ${{ job.status }}."
