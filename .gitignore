@@ -8,3 +8,6 @@ __pycache__/
 #Code coverage
 .coverage
 coverage.xml
+
+#Docker
+docker_image_id.txt
