@@ -7,6 +7,10 @@ jobs:
     steps:
       - name: PaaS-Start-Up-Information
         run: | 
+          echo "------------------------------- Print all environment variables -------------------------------"
+          echo "DOCKER_REPO=$(echo ${GITHUB_REPOSITORY,,} | tr -d '-')" >> $GITHUB_ENV
+          env
+          echo "-----------------------------------------------------------------------------------------------"
           echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
           echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
           echo "🍏 This job's status is ${{ job.status }}."
@@ -66,6 +70,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: d1v3/paas_test:latest
+          tags: ${{ env.DOCKER_REPO }}:latest
         
       - run: echo "🍏 This job's status is ${{ job.status }}."
