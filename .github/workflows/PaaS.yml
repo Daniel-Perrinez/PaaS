@@ -8,7 +8,7 @@ jobs:
       - name: PaaS-Start-Up-Information
         run: | 
           echo "------------------------------- Print all environment variables -------------------------------"
-          echo "DOCKER_REPO=${GITHUB_REPOSITORY//-/,,}" >> $GITHUB_ENV
+          echo "DOCKER_REPO=$(echo ${GITHUB_REPOSITORY,,} | tr -d '-')" >> $GITHUB_ENV
           env
           echo "-----------------------------------------------------------------------------------------------"
           echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
