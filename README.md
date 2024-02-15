@@ -7,8 +7,11 @@ Code coverage
 
 # Workflow
 - git checkout -b "my_branch_name"
-
-
+- git add .
+- git commit -a -m "add update message"
+- git push origin my_branch_name
+- git checkout main
+- git pull origin main
 
 # Add ArgoCD
 https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd
@@ -29,3 +32,5 @@ Pull - Agent is installed in the environment. Regularly checks the repo to compa
     a) Easy rollback / self healing.
     b) Single source of truth.
     c) Increased security - no one but the ci/cd pipeline is allowed to apply changes.
+
+kubectl apply -f application.yaml
