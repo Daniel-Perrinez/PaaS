@@ -18,7 +18,8 @@ spec:
     spec:
       containers:
         - name: flask
-          image: danielperrinez/flask_website:0.0.1.RELEASE
+          # image: danielperrinez/flask_website:0.0.1.RELEASE
+          image: danielperrinez/flask_website:latest
           ports:
             - containerPort: 5000
           imagePullPolicy: Always
