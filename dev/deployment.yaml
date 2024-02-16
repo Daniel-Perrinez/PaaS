@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: paas-test-app
-        image: nanajanashia/argocd-app:1.2
+        image: danielperrinez/paas:latest
         ports:
         - containerPort: 8080
