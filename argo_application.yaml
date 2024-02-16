@@ -1,15 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: paas-test-app
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: paas-test-app
-  namespace: paas-test-app
+  namespace: argocd
 spec:
   project: default
 
   source:
     repoURL: https://github.com/Daniel-Perrinez/PaaS
     targetRevision: HEAD
-    path: dev
+    path: argo_dev
   destination: 
     server: https://kubernetes.default.svc
     namespace: paas-test-app
