@@ -65,7 +65,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and Push
         if: ${{ success() }}
-        uses: docker/build-push-action@v5 #https://github.com/marketplace/actions/build-and-push-docker-images
+        uses: docker/build-push-action@v6 #https://github.com/marketplace/actions/build-and-push-docker-images
         with:
           context: .
           file: ./Dockerfile
